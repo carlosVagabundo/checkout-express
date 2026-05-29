@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Express</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 300px; text-align: center; }
+        h2 { color: #1a365d; margin-top: 0; }
+        .input-group { margin: 15px 0; text-align: left; }
+        label { font-size: 12px; font-weight: bold; color: #4a5568; }
+        input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; background: #2563eb; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:hover { background: #1d4ed8; }
+        .resultado { margin-top: 20px; padding: 10px; background: #f8f9fa; border-radius: 6px; font-size: 14px; border-left: 4px solid #cbd5e1; }
+        .sucesso { border-left-color: #22c55e; color: #166534; background: #f0fdf4; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🛒 Checkout Express</h2>
+        <p style="font-size: 11px; color: #718096; margin-top: -10px; margin-bottom: 20px;">Projeto de Automação e Condicionais</p>
+        
+        <div class="input-group">
+            <label>Valor do Produto (R$):</label>
+            <input type="number" id="valorProduto" value="80">
+        </div>
+
+        <div class="input-group">
+            <label>Cupom de Desconto:</label>
+            <input type="text" id="cupomTexto" placeholder="Digite seu cupom">
+        </div>
+
+        <button onclick="calcularCompra()">Finalizar Pedido</button>
+
+        <div id="painelResultado" class="resultado">
+            Preencha os dados acima para calcular.
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
