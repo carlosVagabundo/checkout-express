@@ -4,47 +4,32 @@ function calcularCompra() {
     const cupomElemento = document.getElementById("cupomTexto");
     const painel = document.getElementById("painelResultado");
 
-    let valorOriginal = Number(valorElemento.value);
-    let cupomDigitado = cupomElemento.value;
+    // Convertemos o valor para número e tratamos caso esteja vazio
+    let valorOriginal = Number(valorElemento.value) || 0;
+    let cupomDigitado = cupomElemento.value || "";
 
-    // =================================================================
-    // Complete os códigos a seguir com o que é pedido
-    // =================================================================
-
-    
     // REGRA 1: Validação do Cupom de Desconto
     let desconto = 0;
-    
     if (cupomDigitado.toUpperCase() === "PROMO10") {
         desconto = 10;
     }
 
-
     // REGRA 2: Aplicação do Desconto no Valor do Produto
-    // O 'valorOriginal' do produto MENOS (-) o 'desconto'
     let valorComDesconto = valorOriginal - desconto;
-  
+    
+    // Pequena correção de segurança: o valor não pode ser negativo
+    if (valorComDesconto < 0) valorComDesconto = 0;
 
-  
     // REGRA 3: Cálculo da Taxa de Frete
     let frete = 0;
-    
     if (valorComDesconto >= 100) {
-        frete = 0;
+        frete = 0; // Frete grátis
     } else {
-        frete = 15;
+        frete = 15; // Cobrança de frete
     }
 
-
-   
     // REGRA 4: Total Geral da Compra
-    // Soma (+) do 'valorComDesconto' com a taxa do 'frete'
     let totalFinal = valorComDesconto + frete;
-
-
-    // =================================================================
-    //  SEU CÓDIGO TERMINA AQUI 
-    // =================================================================
 
     // 2. Exibe o resultado final de volta na tela do usuário
     painel.className = "resultado sucesso";
