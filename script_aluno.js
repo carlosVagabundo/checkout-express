@@ -1,48 +1,49 @@
 function calcularCompra() {
-    // 1. Coleta os elementos do HTML
-    const valorElemento = document.getElementById("valorProduto");
-    const cupomElemento = document.getElementById("cupomTexto");
+    // 1. Captura dos elementos do HTML
+    const campoValor = document.getElementById("valorProduto");
+    const campoCupom = document.getElementById("cupomTexto");
     const painel = document.getElementById("painelResultado");
 
-    // 2. Validação básica: se não houver valor, para a execução aqui
-    if (!valorElemento || valorElemento.value === "") {
-        painel.innerHTML = "Por favor, insira o valor do produto.";
-        painel.className = "resultado erro"; // Opcional: mude a cor para vermelho no CSS
-        return;
+    // 2. Tratamento de entrada (Prevenção de erros)
+    let valorOriginal = parseFloat(campoValor.value);
+    // .trim() remove espaços e .toUpperCase() evita erro se o usuário digitar "promo10" minúsculo
+    let cupom = campoCupom.value.trim().toUpperCase();
+
+    // Validação: Se o valor for inválido, nulo ou menor que zero
+    if (isNaN(valorOriginal) || valorOriginal <= 0) {
+        painel.className = "resultado";
+        painel.innerHTML = "⚠️ Por favor, insira um valor válido para o produto.";
+        return; // Interrompe a função aqui
     }
 
-    let valorOriginal = Number(valorElemento.value);
-    let cupomDigitado = cupomElemento.value.trim(); // .trim() remove espaços extras
-
-    // --- REGRA 1: Cupom ---
+    // 3. Regra de Cupom
     let desconto = 0;
-    if (cupomDigitado.toUpperCase() === "PROMO10") {
+    if (cupom === "PROMO10") {
         desconto = 10;
     }
 
-    // --- REGRA 2: Valor com Desconto ---
-    let valorComDesconto = valorOriginal - desconto;
-    if (valorComDesconto < 0) valorComDesconto = 0; // Garante que não fique negativo
+    // Aplica o desconto (Garante que o valor não fique negativo se o produto for barato)
+    let valorComDesconto = Math.max(0, valorOriginal - desconto);
 
-    // --- REGRA 3: Frete ---
-    let frete = 0;
-    if (valorComDesconto < 100) {
-        frete = 15;
-    } else {
-        frete = 0;
-    }
+    // 4. Regra de Frete
+    // Se o valor após o desconto for 100 ou mais, frete é 0. Caso contrário, 15.
+    let frete = valorComDesconto >= 100 ? 0 : 15;
 
-    // --- REGRA 4: Total Final ---
+    // 5. Cálculo do Total
     let totalFinal = valorComDesconto + frete;
 
-    // 3. Exibe o resultado final
-    painel.className = "resultado sucesso";
+    // 6. Atualização da Interface (Feedback para o usuário)
+    painel.className = "resultado sucesso"; // Aplica a classe de sucesso do CSS
+    
+    // Construção da mensagem final
     painel.innerHTML = `
-        <strong>Resumo do Pedido:</strong><br>
-        Valor original: R$ ${valorOriginal.toFixed(2)}<br>
-        Desconto: R$ ${desconto.toFixed(2)}<br>
-        Frete: ${frete === 0 ? "Grátis" : "R$ " + frete.toFixed(2)}<br>
-        <hr>
-        <strong>Total a pagar: R$ ${totalFinal.toFixed(2)}</strong>
+        <div style="line-height: 1.6;">
+            <strong>✅ Pedido Processado</strong><br>
+            <small>Subtotal: R$ ${valorOriginal.toFixed(2)}</small><br>
+            Desconto: <span style="color: #166534;">- R$ ${desconto.toFixed(2)}</span><br>
+            Frete: ${frete === 0 ? "<strong>Grátis</strong>" : "R$ " + frete.toFixed(2)}<br>
+            <hr style="border: 0; border-top: 1px solid #cbd5e1; margin: 8px 0;">
+            <strong>Total a Pagar: R$ ${totalFinal.toFixed(2)}</strong>
+        </div>
     `;
 }
